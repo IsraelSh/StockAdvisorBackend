@@ -1,0 +1,109 @@
+﻿using Microsoft.AspNetCore.Identity.Data;
+using Microsoft.AspNetCore.Mvc;
+using StockAdvisorBackend.DTOs;
+using StockAdvisorBackend.Models;
+using StockAdvisorBackend.Services.Interfaces;
+using RegisterRequest = StockAdvisorBackend.DTOs.RegisterRequest;
+using LoginRequest = StockAdvisorBackend.DTOs.LoginRequest;
+
+
+
+namespace StockAdvisorBackend.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class UserController : ControllerBase
+    {
+        private readonly IUserService _userService;
+
+        public UserController(IUserService userService) //Dependency Injection
+        {
+            _userService = userService;
+        }
+
+        [HttpPost("register")]
+        public async Task<IActionResult> Register([FromBody] RegisterRequest request)
+        {
+            if (string.IsNullOrEmpty(request.Username) || string.IsNullOrEmpty(request.Password))
+                return BadRequest("Username and password are required.");
+
+            var user = new User
+            {
+                Username = request.Username,
+                PasswordHash = request.Password // בשלב הזה אין הצפנה אמיתית (רק הדגמה פשוטה)
+            };
+
+            await _userService.AddUserAsync(user);
+
+            return Ok("User registered successfully!");
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllUsers() // Get all users
+        {
+            var users = await _userService.GetAllUsersAsync();
+            return Ok(users);
+        }
+
+
+
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LoginRequest request)
+        {
+            if (string.IsNullOrEmpty(request.Username) || string.IsNullOrEmpty(request.Password))
+                return BadRequest("Username and password are required.");
+
+            var user = await _userService.GetUserByUsernameAsync(request.Username);
+
+            if (user == null || user.PasswordHash != request.Password)
+                return Unauthorized("Invalid username or password.");
+
+            return Ok($"Welcome back, {user.Username}!");
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetUserById(int id)
+        {
+            var user = await _userService.GetUserByIdAsync(id);
+
+            if (user == null)
+                return NotFound("User not found.");
+
+            return Ok(user);
+        }
+
+
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateUser(int id, [FromBody] UpdateUserRequest request)
+        {
+            var user = await _userService.GetUserByIdAsync(id);
+            if (user == null)
+                return NotFound("User not found.");
+
+            user.Username = request.Username;
+            user.PasswordHash = request.Password; // תלוי אם יש הצפנה בעתיד
+                                                  // תוסיף פה עוד שדות אם תרצה בעתיד (אימייל, טלפון וכו')
+
+            await _userService.UpdateUserAsync(user);
+
+            return Ok("User updated successfully!");
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteUser(int id)
+        {
+            var user = await _userService.GetUserByIdAsync(id);
+            if (user == null)
+                return NotFound("User not found.");
+
+            await _userService.DeleteUserAsync(id);
+
+            return Ok("User deleted successfully!");
+        }
+
+
+    }
+}
