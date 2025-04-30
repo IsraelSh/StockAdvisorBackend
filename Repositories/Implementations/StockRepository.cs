@@ -16,32 +16,39 @@ namespace StockAdvisorBackend.Repositories.Implementations
             _context = context;
         }
 
-        public async Task<Stock> GetStockByIdAsync(int id)
+        public async Task<StockModel> GetStockByIdAsync(int id)
         {
             return await _context.Stocks.FindAsync(id);
         }
 
-        public async Task<List<Stock>> GetAllStocksAsync()
+        public async Task<List<StockModel>> GetAllStocksAsync()
         {
             return await _context.Stocks.ToListAsync();
         }
 
-        public async Task AddStockAsync(Stock stock)
+        public async Task AddStockAsync(StockModel stock)
         {
             _context.Stocks.Add(stock);
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateStockAsync(Stock stock)
+        public async Task UpdateStockAsync(StockModel stock)
         {
             _context.Stocks.Update(stock);
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteStockAsync(Stock stock)
+        public async Task DeleteStockAsync(StockModel stock)
         {
             _context.Stocks.Remove(stock);
             await _context.SaveChangesAsync();
         }
+
+        public async Task<StockModel> GetStockBySymbolAsync(string symbol)
+        {
+            return await _context.Stocks
+                .FirstOrDefaultAsync(s => s.Symbol.ToLower() == symbol.ToLower());
+        }
+
     }
 }

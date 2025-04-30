@@ -11,10 +11,12 @@ namespace StockAdvisorBackend.Repositories.Interfaces
 
         /// This interface defines the contract for stock-related data operations.
     {
-        Task<Stock> GetStockByIdAsync(int id);
-        Task<List<Stock>> GetAllStocksAsync();
-        Task AddStockAsync(Stock stock);
-        Task UpdateStockAsync(Stock stock);
-        Task DeleteStockAsync(Stock stock);
+        Task<StockModel> GetStockByIdAsync(int id);
+        Task<List<StockModel>> GetAllStocksAsync();
+        Task AddStockAsync(StockModel stock);
+        Task UpdateStockAsync(StockModel stock);
+        Task DeleteStockAsync(StockModel stock);
+        Task<StockModel> GetStockBySymbolAsync(string symbol);
+
     }
 }

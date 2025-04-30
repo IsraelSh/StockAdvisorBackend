@@ -6,10 +6,12 @@ namespace StockAdvisorBackend.Services.Interfaces
 {
     public interface IStockService
     {
-        Task<Stock> GetStockByIdAsync(int id);
-        Task<List<Stock>> GetAllStocksAsync();
-        Task AddStockAsync(Stock stock);
-        Task UpdateStockAsync(Stock stock);
-        Task DeleteStockAsync(Stock stock); 
+
+        Task AddStockAsync(StockModel stock);
+        Task UpdateStockAsync(StockModel stock);
+        Task DeleteStockAsync(StockModel stock); 
+        Task<List<StockModel>> GetAllStocksAsync();
+        Task<StockModel> GetStockByIdAsync(int id);
+        Task<StockModel> GetStockBySymbolAsync(string symbol);
     }
 }

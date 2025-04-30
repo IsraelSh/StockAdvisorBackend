@@ -18,7 +18,7 @@ namespace StockAdvisorBackend.Repositories.Implementations
         }
 
         // קבלת כל העסקאות של המשתמש
-        public async Task<List<Transaction>> GetTransactionsByUserIdAsync(int userId)
+        public async Task<List<TransactionModel>> GetTransactionsByUserIdAsync(int userId)
         {
             return await _context.Transactions
                                  .Include(t => t.Stock) // אם ברצונך להוסיף מידע על המניה
@@ -27,14 +27,14 @@ namespace StockAdvisorBackend.Repositories.Implementations
         }
 
         // הוספת עסקה חדשה
-        public async Task AddTransactionAsync(Transaction transaction)
+        public async Task AddTransactionAsync(TransactionModel transaction)
         {
             _context.Transactions.Add(transaction);
             await _context.SaveChangesAsync();
         }
 
         // קבלת עסקה לפי ID
-        public async Task<Transaction> GetTransactionByIdAsync(int id)
+        public async Task<TransactionModel> GetTransactionByIdAsync(int id)
         {
             return await _context.Transactions
                                  .Include(t => t.Stock) // כולל את המניה כדי שנוכל להחזיר אותה
@@ -42,7 +42,7 @@ namespace StockAdvisorBackend.Repositories.Implementations
         }
 
         // עדכון עסקה
-        public async Task UpdateTransactionAsync(Transaction transaction)
+        public async Task UpdateTransactionAsync(TransactionModel transaction)
         {
             _context.Transactions.Update(transaction);
             await _context.SaveChangesAsync();
@@ -59,7 +59,7 @@ namespace StockAdvisorBackend.Repositories.Implementations
             }
         }
 
-        public async Task<List<Transaction>> GetAllTransactionsAsync()  // הוספנו את הפונקציה הזאת
+        public async Task<List<TransactionModel>> GetAllTransactionsAsync()  // הוספנו את הפונקציה הזאת
         {
             return await _context.Transactions
                                  .Include(t => t.Stock)

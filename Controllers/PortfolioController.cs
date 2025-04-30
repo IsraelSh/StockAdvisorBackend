@@ -20,14 +20,14 @@ namespace StockAdvisorBackend.Controllers
 
         // 🎯 הוספת מניה לתיק האישי
         [HttpPost]
-        public async Task<IActionResult> AddPortfolioItem([FromBody] CreatePortfolioItemDto request)
+        public async Task<IActionResult> AddPortfolioItem([FromBody] PortfolioDto request)
         {
-            var portfolioItem = new PortfolioItem
+            var portfolioItem = new PortfolioModel
             {
                 UserId = request.UserId,
                 StockId = request.StockId,
-                Quantity = request.Quantity,
-                PurchasePrice = request.PurchasePrice
+                PortfolioQuantity = request.Quantity,
+                AveragePurchasePrice = request.PurchasePrice
             };
 
             await _portfolioService.AddPortfolioItemAsync(portfolioItem);

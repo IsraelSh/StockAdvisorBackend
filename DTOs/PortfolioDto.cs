@@ -2,7 +2,7 @@
 
 namespace StockAdvisorBackend.DTOs
 {
-    public class CreatePortfolioItemDto
+    public class PortfolioDto
     {
         [Required(ErrorMessage = "UserId is required")]
         public int UserId { get; set; }

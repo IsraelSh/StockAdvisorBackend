@@ -20,10 +20,10 @@ namespace StockAdvisorBackend.Data // Data access layer
         }
 
         // טבלאות במערכת
-        public DbSet<User> Users { get; set; }
-        public DbSet<Stock> Stocks { get; set; }
-        public DbSet<PortfolioItem> PortfolioItems { get; set; }
-        public DbSet<Transaction> Transactions { get; set; }
-        public DbSet<AdviceRequest> AdviceRequests { get; set; } // אם החלטת להוסיף גם ייעוץ
+        public DbSet<UserModel> Users { get; set; }
+        public DbSet<StockModel> Stocks { get; set; }
+        public DbSet<PortfolioModel> PortfolioItems { get; set; }
+        public DbSet<TransactionModel> Transactions { get; set; }
+        public DbSet<AdviceRequestModel> AdviceRequests { get; set; } // אם החלטת להוסיף גם ייעוץ
     }
 }

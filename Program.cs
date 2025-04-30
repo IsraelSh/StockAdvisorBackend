@@ -17,7 +17,7 @@ builder.Services.AddScoped<IStockRepository, StockRepository>();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IPortfolioItemRepository, PortfolioItemRepository>();
+builder.Services.AddScoped<IPortfolioRepository, PortfolioRepository>();
 builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IStockService, StockService>();
@@ -32,6 +32,18 @@ builder.Services.AddScoped<IAdviceRequestService, AdviceRequestService>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// ===== Add CORS =====
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
+
+
 
 var app = builder.Build();
 app.UseMiddleware<StockAdvisorBackend.Middlewares.ErrorHandlingMiddleware>();
@@ -43,6 +55,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+
+app.UseCors("AllowAll");
 
 
 app.UseAuthorization();

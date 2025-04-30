@@ -5,13 +5,13 @@ namespace StockAdvisorBackend.Repositories.Interfaces
 {
     public interface IUserRepository
     {
-        Task<User> GetUserByIdAsync(int id);
-        Task<User> GetUserByUsernameAsync(string username);
-        Task AddUserAsync(User user);
+        Task<UserModel> GetUserByIdAsync(int id);
+        Task<UserModel> GetUserByUsernameAsync(string username);
+        Task AddUserAsync(UserModel user);
 
-        Task<List<User>> GetAllUsersAsync();
+        Task<List<UserModel>> GetAllUsersAsync();
 
-        Task UpdateUserAsync(User user);
+        Task UpdateUserAsync(UserModel user);
 
         Task DeleteUserAsync(int id);
 

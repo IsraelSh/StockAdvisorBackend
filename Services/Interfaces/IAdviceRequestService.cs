@@ -6,8 +6,8 @@ namespace StockAdvisorBackend.Services.Interfaces
 {
     public interface IAdviceRequestService
     {
-        Task<AdviceRequest> GetAdviceRequestByIdAsync(int id);
-        Task<List<AdviceRequest>> GetAdviceRequestsByUserIdAsync(int userId);
-        Task AddAdviceRequestAsync(AdviceRequest request);
+        Task<AdviceRequestModel> GetAdviceRequestByIdAsync(int id);
+        Task<List<AdviceRequestModel>> GetAdviceRequestsByUserIdAsync(int userId);
+        Task AddAdviceRequestAsync(AdviceRequestModel request);
     }
 }

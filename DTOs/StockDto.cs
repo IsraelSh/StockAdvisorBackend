@@ -2,7 +2,7 @@
 
 namespace StockAdvisorBackend.DTOs
 {
-    public class CreateStockDto
+    public class StockDto
     {
         [Required(ErrorMessage = "Symbol is required")]
         [StringLength(10, ErrorMessage = "Symbol must be up to 10 characters")]

@@ -16,19 +16,19 @@ namespace StockAdvisorBackend.Repositories.Implementations
             _context = context;
         }
 
-        public async Task<AdviceRequest> GetAdviceRequestByIdAsync(int id)
+        public async Task<AdviceRequestModel> GetAdviceRequestByIdAsync(int id)
         {
             return await _context.AdviceRequests.FindAsync(id);
         }
 
-        public async Task<List<AdviceRequest>> GetAdviceRequestsByUserIdAsync(int userId)
+        public async Task<List<AdviceRequestModel>> GetAdviceRequestsByUserIdAsync(int userId)
         {
             return await _context.AdviceRequests
                                  .Where(a => a.UserId == userId)
                                  .ToListAsync();
         }
 
-        public async Task AddAdviceRequestAsync(AdviceRequest request)
+        public async Task AddAdviceRequestAsync(AdviceRequestModel request)
         {
             _context.AdviceRequests.Add(request);
             await _context.SaveChangesAsync();

@@ -6,10 +6,10 @@ namespace StockAdvisorBackend.Services.Interfaces
 {
     public interface IPortfolioService
     {
-        Task<List<PortfolioItem>> GetPortfolioByUserIdAsync(int userId);
-        Task<PortfolioItem> GetPortfolioItemAsync(int userId, int stockId);
-        Task AddPortfolioItemAsync(PortfolioItem item);
-        Task UpdatePortfolioItemAsync(PortfolioItem item);
+        Task<List<PortfolioModel>> GetPortfolioByUserIdAsync(int userId);
+        Task<PortfolioModel> GetPortfolioItemAsync(int userId, int stockId);
+        Task AddPortfolioItemAsync(PortfolioModel item);
+        Task UpdatePortfolioItemAsync(PortfolioModel item);
         Task RemovePortfolioItemAsync(int userId, int stockId);
     }
 }

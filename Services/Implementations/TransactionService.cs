@@ -16,25 +16,25 @@ namespace StockAdvisorBackend.Services.Implementations
         }
 
         // קבלת כל העסקאות של המשתמש לפי userId
-        public async Task<List<Transaction>> GetTransactionsByUserIdAsync(int userId)
+        public async Task<List<TransactionModel>> GetTransactionsByUserIdAsync(int userId)
         {
             return await _transactionRepository.GetTransactionsByUserIdAsync(userId);
         }
 
         // הוספת עסקה חדשה
-        public async Task AddTransactionAsync(Transaction transaction)
+        public async Task AddTransactionAsync(TransactionModel transaction)
         {
             await _transactionRepository.AddTransactionAsync(transaction);
         }
 
         // קבלת עסקה לפי ID
-        public async Task<Transaction> GetTransactionByIdAsync(int id)
+        public async Task<TransactionModel> GetTransactionByIdAsync(int id)
         {
             return await _transactionRepository.GetTransactionByIdAsync(id);
         }
 
         // עדכון עסקה קיימת
-        public async Task UpdateTransactionAsync(Transaction transaction)
+        public async Task UpdateTransactionAsync(TransactionModel transaction)
         {
             await _transactionRepository.UpdateTransactionAsync(transaction);
         }
@@ -45,7 +45,7 @@ namespace StockAdvisorBackend.Services.Implementations
             await _transactionRepository.DeleteTransactionAsync(id);
         }
 
-        public async Task<List<Transaction>> GetAllTransactionsAsync()  // הוספנו את הפונקציה הזאת
+        public async Task<List<TransactionModel>> GetAllTransactionsAsync()  // הוספנו את הפונקציה הזאת
         {
             return await _transactionRepository.GetAllTransactionsAsync();  // הנחתי שאתה מקבל את כל העיסקאות מ-Repository
         }

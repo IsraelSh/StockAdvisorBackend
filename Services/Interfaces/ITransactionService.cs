@@ -6,12 +6,12 @@ namespace StockAdvisorBackend.Services.Interfaces
 {
     public interface ITransactionService
     {
-        Task<List<Transaction>> GetTransactionsByUserIdAsync(int userId);
-        Task AddTransactionAsync(Transaction transaction);
-        Task<Transaction> GetTransactionByIdAsync(int id);
-        Task UpdateTransactionAsync(Transaction transaction);
+        Task<List<TransactionModel>> GetTransactionsByUserIdAsync(int userId);
+        Task AddTransactionAsync(TransactionModel transaction);
+        Task<TransactionModel> GetTransactionByIdAsync(int id);
+        Task UpdateTransactionAsync(TransactionModel transaction);
         Task DeleteTransactionAsync(int id);
 
-        Task<List<Transaction>> GetAllTransactionsAsync();
+        Task<List<TransactionModel>> GetAllTransactionsAsync();
     }
 }

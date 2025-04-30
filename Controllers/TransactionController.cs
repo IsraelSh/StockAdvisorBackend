@@ -20,7 +20,7 @@ namespace StockAdvisorBackend.Controllers
 
         // קבלת כל העסקאות
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Transaction>>> GetAllTransactions()
+        public async Task<ActionResult<IEnumerable<TransactionModel>>> GetAllTransactions()
         {
             var transactions = await _transactionService.GetAllTransactionsAsync();
             return Ok(transactions);
@@ -28,7 +28,7 @@ namespace StockAdvisorBackend.Controllers
 
         // קבלת עסקה לפי ID
         [HttpGet("{id}")]
-        public async Task<ActionResult<Transaction>> GetTransactionById(int id)
+        public async Task<ActionResult<TransactionModel>> GetTransactionById(int id)
         {
             var transaction = await _transactionService.GetTransactionByIdAsync(id);
             if (transaction == null)
@@ -38,13 +38,13 @@ namespace StockAdvisorBackend.Controllers
 
         // הוספת עסקה חדשה
         [HttpPost]
-        public async Task<IActionResult> AddTransaction([FromBody] CreateTransactionDto request)
+        public async Task<IActionResult> AddTransaction([FromBody] TransactionDto request)
         {
-            var transaction = new Transaction
+            var transaction = new TransactionModel
             {
                 UserId = request.UserId,
                 StockId = request.StockId,
-                Quantity = request.Quantity,
+                TransactionAmount = request.TransactionAmount,
                 PriceAtTransaction = request.PriceAtTransaction,
                 TransactionType = request.TransactionType
             };
@@ -55,7 +55,7 @@ namespace StockAdvisorBackend.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateTransaction(int id, [FromBody] CreateTransactionDto request)
+        public async Task<IActionResult> UpdateTransaction(int id, [FromBody] TransactionDto request)
         {
             var existingTransaction = await _transactionService.GetTransactionByIdAsync(id);
 
@@ -64,7 +64,7 @@ namespace StockAdvisorBackend.Controllers
 
             existingTransaction.UserId = request.UserId;
             existingTransaction.StockId = request.StockId;
-            existingTransaction.Quantity = request.Quantity;
+            existingTransaction.TransactionAmount = request.TransactionAmount;
             existingTransaction.PriceAtTransaction = request.PriceAtTransaction;
             existingTransaction.TransactionType = request.TransactionType;
 

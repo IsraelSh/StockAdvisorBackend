@@ -2,7 +2,7 @@
 
 namespace StockAdvisorBackend.DTOs
 {
-    public class RegisterRequest
+    public class AdviceRequsetDto
     {
         [Required(ErrorMessage = "Username is required")]
         [StringLength(50, ErrorMessage = "Username must be up to 50 characters")]

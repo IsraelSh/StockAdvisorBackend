@@ -22,7 +22,7 @@ namespace StockAdvisorBackend.Controllers
 
         // --- פונקציה ליצירת שאלה חדשה ---
         [HttpPost]
-        public async Task<IActionResult> CreateAdviceRequest([FromBody] AdviceRequest adviceRequest)
+        public async Task<IActionResult> CreateAdviceRequest([FromBody] AdviceRequestModel adviceRequest)
         {
             // שמירת תאריך יצירת הבקשה
             adviceRequest.CreatedAt = DateTime.UtcNow;
@@ -39,7 +39,7 @@ namespace StockAdvisorBackend.Controllers
 
         // --- פונקציה לקבל את כל השאלות של יוזר מסויים לפי ה-UserId ---
         [HttpGet("{userId}")]
-        public async Task<ActionResult<List<AdviceRequest>>> GetAdviceRequestsByUserId(int userId)
+        public async Task<ActionResult<List<AdviceRequestModel>>> GetAdviceRequestsByUserId(int userId)
         {
             var requests = await _adviceRequestService.GetAdviceRequestsByUserIdAsync(userId);
             return Ok(requests);

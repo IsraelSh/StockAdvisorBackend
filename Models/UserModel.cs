@@ -2,13 +2,15 @@
 
 namespace StockAdvisorBackend.Models
 {
-    public class User
+    public class UserModel
     {
         public int Id { get; set; }
         public string Username { get; set; }
+
+
         public string PasswordHash { get; set; }
 
-        public List<PortfolioItem> Portfolio { get; set; }
-        public List<Transaction> Transactions { get; set; }
+        public List<PortfolioModel> Portfolio { get; set; }
+        public List<TransactionModel> Transactions { get; set; }
     }
 }

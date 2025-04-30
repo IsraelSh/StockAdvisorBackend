@@ -1,11 +1,10 @@
-﻿using Microsoft.AspNetCore.Identity.Data;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using StockAdvisorBackend.DTOs;
 using StockAdvisorBackend.Models;
+using Microsoft.AspNetCore.Identity.Data;
 using StockAdvisorBackend.Services.Interfaces;
-using RegisterRequest = StockAdvisorBackend.DTOs.RegisterRequest;
 using LoginRequest = StockAdvisorBackend.DTOs.LoginRequest;
-
+using AdviceRequsetDto = StockAdvisorBackend.DTOs.AdviceRequsetDto;
 
 
 namespace StockAdvisorBackend.Controllers
@@ -22,12 +21,12 @@ namespace StockAdvisorBackend.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterRequest request)
+        public async Task<IActionResult> Register([FromBody] AdviceRequsetDto request)
         {
             if (string.IsNullOrEmpty(request.Username) || string.IsNullOrEmpty(request.Password))
                 return BadRequest("Username and password are required.");
 
-            var user = new User
+            var user = new UserModel
             {
                 Username = request.Username,
                 PasswordHash = request.Password // בשלב הזה אין הצפנה אמיתית (רק הדגמה פשוטה)
@@ -38,7 +37,6 @@ namespace StockAdvisorBackend.Controllers
             return Ok("User registered successfully!");
         }
 
-
         [HttpGet]
         public async Task<IActionResult> GetAllUsers() // Get all users
         {
@@ -46,21 +44,22 @@ namespace StockAdvisorBackend.Controllers
             return Ok(users);
         }
 
-
-
-
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
             if (string.IsNullOrEmpty(request.Username) || string.IsNullOrEmpty(request.Password))
                 return BadRequest("Username and password are required.");
 
-            var user = await _userService.GetUserByUsernameAsync(request.Username);
+            var user = await _userService.GetUserByUserNameAsync(request.Username);
 
             if (user == null || user.PasswordHash != request.Password)
                 return Unauthorized("Invalid username or password.");
 
-            return Ok($"Welcome back, {user.Username}!");
+            return Ok(new // Return a token or user info
+            {
+                userId = user.Id,
+                message = $"Welcome back, {user.Username}!"
+            });
         }
 
         [HttpGet("{id}")]
@@ -74,10 +73,8 @@ namespace StockAdvisorBackend.Controllers
             return Ok(user);
         }
 
-
-
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateUser(int id, [FromBody] UpdateUserRequest request)
+        public async Task<IActionResult> UpdateUser(int id, [FromBody] UserDto request)
         {
             var user = await _userService.GetUserByIdAsync(id);
             if (user == null)
@@ -103,7 +100,5 @@ namespace StockAdvisorBackend.Controllers
 
             return Ok("User deleted successfully!");
         }
-
-
     }
 }

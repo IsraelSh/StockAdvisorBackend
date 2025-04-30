@@ -1,7 +1,7 @@
-﻿using StockAdvisorBackend.Models;
-using StockAdvisorBackend.Repositories.Interfaces;
+﻿using System.Threading.Tasks;
+using StockAdvisorBackend.Models;
 using StockAdvisorBackend.Services.Interfaces;
-using System.Threading.Tasks;
+using StockAdvisorBackend.Repositories.Interfaces;
 
 namespace StockAdvisorBackend.Services.Implementations
 {
@@ -14,28 +14,28 @@ namespace StockAdvisorBackend.Services.Implementations
             _userRepository = userRepository;
         }
 
-        public async Task AddUserAsync(User user)
+        public async Task AddUserAsync(UserModel user)
         {
             await _userRepository.AddUserAsync(user);
         }
 
-        public async Task<User> GetUserByUsernameAsync(string username)
+        public async Task<UserModel> GetUserByUserNameAsync(string username)
         {
             return await _userRepository.GetUserByUsernameAsync(username);
         }
 
-        public async Task<User> GetUserByIdAsync(int id)
+        public async Task<UserModel> GetUserByIdAsync(int id)
         {
             return await _userRepository.GetUserByIdAsync(id);
         }
 
 
-        public async Task<List<User>> GetAllUsersAsync()
+        public async Task<List<UserModel>> GetAllUsersAsync()
         {
             return await _userRepository.GetAllUsersAsync();
         }
 
-        public async Task UpdateUserAsync(User user)
+        public async Task UpdateUserAsync(UserModel user)
         {
             await _userRepository.UpdateUserAsync(user);
         }
@@ -43,6 +43,5 @@ namespace StockAdvisorBackend.Services.Implementations
         {
             await _userRepository.DeleteUserAsync(id);
         }
-
     }
 }

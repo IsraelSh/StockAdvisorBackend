@@ -6,12 +6,12 @@ namespace StockAdvisorBackend.Repositories.Interfaces
 {
     public interface ITransactionRepository
     {
-        Task<List<Transaction>> GetTransactionsByUserIdAsync(int userId);
-        Task AddTransactionAsync(Transaction transaction);
-        Task<Transaction> GetTransactionByIdAsync(int id); // פונקציה לחיפוש עסקה לפי ID
-        Task UpdateTransactionAsync(Transaction transaction); // פונקציה לעדכון עסקה
+        Task<List<TransactionModel>> GetTransactionsByUserIdAsync(int userId);
+        Task AddTransactionAsync(TransactionModel transaction);
+        Task<TransactionModel> GetTransactionByIdAsync(int id); // פונקציה לחיפוש עסקה לפי ID
+        Task UpdateTransactionAsync(TransactionModel transaction); // פונקציה לעדכון עסקה
         Task DeleteTransactionAsync(int id); // פונקציה למחיקת עסקה
 
-        Task<List<Transaction>> GetAllTransactionsAsync();
+        Task<List<TransactionModel>> GetAllTransactionsAsync();
     }
 }
