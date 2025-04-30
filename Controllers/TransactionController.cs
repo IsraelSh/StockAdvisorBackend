@@ -46,7 +46,8 @@ namespace StockAdvisorBackend.Controllers
                 StockId = request.StockId,
                 TransactionAmount = request.TransactionAmount,
                 PriceAtTransaction = request.PriceAtTransaction,
-                TransactionType = request.TransactionType
+                TransactionType = request.TransactionType,
+                TransactionDate = DateTime.UtcNow
             };
 
             await _transactionService.AddTransactionAsync(transaction);

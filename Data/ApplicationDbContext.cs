@@ -25,5 +25,8 @@ namespace StockAdvisorBackend.Data // Data access layer
         public DbSet<PortfolioModel> PortfolioItems { get; set; }
         public DbSet<TransactionModel> Transactions { get; set; }
         public DbSet<AdviceRequestModel> AdviceRequests { get; set; } // אם החלטת להוסיף גם ייעוץ
+
+        public DbSet<EventModel> Events { get; set; }
+
     }
 }

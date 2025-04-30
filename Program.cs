@@ -4,6 +4,7 @@ using StockAdvisorBackend.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using StockAdvisorBackend.Services.Implementations;
 using StockAdvisorBackend.Services.Interfaces;
+using StockAdvisorBackend.Services;
 
 
 
@@ -25,6 +26,9 @@ builder.Services.AddScoped<IPortfolioService, PortfolioService>();
 builder.Services.AddScoped<ITransactionService, TransactionService>();
 builder.Services.AddScoped<IAdviceRequestRepository, AdviceRequestRepository>();
 builder.Services.AddScoped<IAdviceRequestService, AdviceRequestService>();
+builder.Services.AddScoped<EventService>();
+builder.Services.AddScoped<StockRepository>();
+
 
 
 

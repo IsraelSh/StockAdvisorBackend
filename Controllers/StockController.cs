@@ -38,7 +38,7 @@ namespace StockAdvisorBackend.Controllers
             var stock = new StockModel
             {
                 Symbol = request.Symbol,
-                CompanyName = request.CompanyName,
+              //  CompanyName = request.CompanyName,
                 CurrentPrice = request.CurrentPrice
             };
 
@@ -53,7 +53,7 @@ namespace StockAdvisorBackend.Controllers
             {
                 Id = id,
                 Symbol = request.Symbol,
-                CompanyName = request.CompanyName,
+             //   CompanyName = request.CompanyName,
                 CurrentPrice = request.CurrentPrice
             };
 
@@ -72,16 +72,6 @@ namespace StockAdvisorBackend.Controllers
             await _stockService.DeleteStockAsync(stock);
             return Ok("Stock deleted successfully!");
         }
-
-        [HttpGet("symbol/{symbol}")]
-        public async Task<IActionResult> GetStockBySymbol(string symbol)
-        {
-            var stock = await _stockService.GetStockBySymbolAsync(symbol);
-            if (stock == null)
-                return NotFound("Stock not found.");
-            return Ok(stock);
-        }
-
 
     }
 }

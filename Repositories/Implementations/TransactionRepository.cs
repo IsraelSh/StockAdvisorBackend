@@ -2,6 +2,7 @@
 using StockAdvisorBackend.Data;
 using StockAdvisorBackend.Models;
 using StockAdvisorBackend.Repositories.Interfaces;
+using StockAdvisorBackend.Services;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,10 +12,13 @@ namespace StockAdvisorBackend.Repositories.Implementations
     public class TransactionRepository : ITransactionRepository
     {
         private readonly ApplicationDbContext _context;
+        private readonly EventService _eventService;
 
-        public TransactionRepository(ApplicationDbContext context)
+
+        public TransactionRepository(ApplicationDbContext context ,EventService eventService)
         {
             _context = context;
+            _eventService = eventService;
         }
 
         // קבלת כל העסקאות של המשתמש
@@ -31,6 +35,19 @@ namespace StockAdvisorBackend.Repositories.Implementations
         {
             _context.Transactions.Add(transaction);
             await _context.SaveChangesAsync();
+
+
+            // טען את העסקה מחדש עם Include ל-Stock לפני שאתה שולח לאירוע
+            var fullTransaction = await _context.Transactions
+                .Include(t => t.Stock)
+                .FirstOrDefaultAsync(t => t.Id == transaction.Id);
+
+            // רישום האירוע
+            await _eventService.LogEventAsync(
+            "TransactionCreated",         // עדכון השם שיהיה יותר ברור
+               "Transaction",
+               transaction.Id,
+              fullTransaction);
         }
 
         // קבלת עסקה לפי ID
@@ -46,6 +63,15 @@ namespace StockAdvisorBackend.Repositories.Implementations
         {
             _context.Transactions.Update(transaction);
             await _context.SaveChangesAsync();
+
+
+            // רישום האירוע
+            await _eventService.LogEventAsync(
+                "TransactionUpdated",
+                 "Transaction",
+                     transaction.Id,
+                      transaction
+    );
         }
 
         // מחיקת עסקה
@@ -55,8 +81,15 @@ namespace StockAdvisorBackend.Repositories.Implementations
             if (transaction != null)
             {
                 _context.Transactions.Remove(transaction);
-                await _context.SaveChangesAsync();
+                // רישום האירוע
+                await _eventService.LogEventAsync(
+                      "TransactionDeleted",
+                      "Transaction",
+                       transaction.Id,
+                       transaction
+        );
             }
+                await _context.SaveChangesAsync();
         }
 
         public async Task<List<TransactionModel>> GetAllTransactionsAsync()  // הוספנו את הפונקציה הזאת
