@@ -28,6 +28,9 @@ builder.Services.AddScoped<IAdviceRequestRepository, AdviceRequestRepository>();
 builder.Services.AddScoped<IAdviceRequestService, AdviceRequestService>();
 builder.Services.AddScoped<EventService>();
 builder.Services.AddScoped<StockRepository>();
+builder.Services.AddHttpClient<PolygonService>();
+
+
 
 
 

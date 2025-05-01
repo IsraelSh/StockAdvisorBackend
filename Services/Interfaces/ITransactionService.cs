@@ -7,6 +7,7 @@ namespace StockAdvisorBackend.Services.Interfaces
     public interface ITransactionService
     {
         Task<List<TransactionModel>> GetTransactionsByUserIdAsync(int userId);
+            
         Task AddTransactionAsync(TransactionModel transaction);
         Task<TransactionModel> GetTransactionByIdAsync(int id);
         Task UpdateTransactionAsync(TransactionModel transaction);

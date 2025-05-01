@@ -13,5 +13,7 @@ namespace StockAdvisorBackend.Services.Interfaces
         Task<List<StockModel>> GetAllStocksAsync();
         Task<StockModel> GetStockByIdAsync(int id);
         Task<StockModel> GetStockBySymbolAsync(string symbol);
+
+        Task<StockModel> GetOrFetchStockBySymbolAsync(string symbol, PolygonService polygonService);
     }
 }

@@ -45,5 +45,41 @@ namespace StockAdvisorBackend.Services.Implementations
             return await _stockRepository.GetStockBySymbolAsync(symbol);
         }
 
+
+        public async Task<StockModel> GetOrFetchStockBySymbolAsync(string symbol, PolygonService polygonService)
+        {
+            symbol = symbol.ToUpper();
+            var stock = await _stockRepository.GetStockBySymbolAsync(symbol);
+
+            var shouldUpdate = stock == null || stock.CurrentPrice <= 0 || stock.LastUpdated < DateTime.UtcNow.AddMinutes(-60);
+
+            if (shouldUpdate)
+            {
+                var latestPrice = await polygonService.GetLatestPrice(symbol);
+                if (latestPrice == null) return null;
+
+                if (stock == null)
+                {
+                    stock = new StockModel
+                    {
+                        Symbol = symbol,
+                        CurrentPrice = (decimal)latestPrice,
+                        LastUpdated = DateTime.UtcNow
+                    };
+                    await _stockRepository.AddStockAsync(stock);
+                }
+                else
+                {
+                    stock.CurrentPrice = (decimal)latestPrice;
+                    stock.LastUpdated = DateTime.UtcNow;
+                    await _stockRepository.UpdateStockAsync(stock);
+                }
+            }
+
+            return stock;
+        }
+
+
+
     }
 }

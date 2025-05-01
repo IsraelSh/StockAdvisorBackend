@@ -41,7 +41,7 @@ namespace StockAdvisorBackend.Services
             {
                 Console.WriteLine("🔥 שגיאת שמירה:");
                 Console.WriteLine(ex.InnerException?.Message ?? ex.Message);
-                throw; // כדי שעדיין תקבל שגיאה ל־Swagger, אבל תראה את הפירוט במסוף
+                throw; 
             }
         }
     }

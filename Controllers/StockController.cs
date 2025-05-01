@@ -10,10 +10,13 @@ namespace StockAdvisorBackend.Controllers
     public class StockController : ControllerBase
     {
         private readonly IStockService _stockService;
+        private readonly PolygonService _polygonService;
 
-        public StockController(IStockService stockService)
+
+        public StockController(IStockService stockService, PolygonService polygonService)
         {
             _stockService = stockService;
+            _polygonService = polygonService;
         }
 
         [HttpGet("{id}")]
@@ -24,6 +27,18 @@ namespace StockAdvisorBackend.Controllers
                 return NotFound("Stock not found.");
             return Ok(stock);
         }
+
+
+        [HttpGet("symbol/{symbol}")]
+        public async Task<ActionResult<StockModel>> GetStockBySymbol(string symbol)
+        {
+            var stock = await _stockService.GetOrFetchStockBySymbolAsync(symbol, _polygonService);
+            if (stock == null)
+                return NotFound("Price not available from external source");
+
+            return Ok(stock);
+        }
+
 
         [HttpGet]
         public async Task<IActionResult> GetAllStocks()

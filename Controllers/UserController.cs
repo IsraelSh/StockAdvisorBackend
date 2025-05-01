@@ -34,7 +34,12 @@ namespace StockAdvisorBackend.Controllers
 
             await _userService.AddUserAsync(user);
 
-            return Ok("User registered successfully!");
+            return Ok(new
+            {
+                success = true,
+                message = "User registered successfully!",
+                userId = user.Id  // ודא ש־Id קיים ונוצר ב־AddUserAsync
+            });
         }
 
         [HttpGet]
@@ -55,10 +60,17 @@ namespace StockAdvisorBackend.Controllers
             if (user == null || user.PasswordHash != request.Password)
                 return Unauthorized("Invalid username or password.");
 
-            return Ok(new // Return a token or user info
+            //return Ok(new // Return a token or user info
+            //{
+            //    userId = user.Id,
+            //    message = $"Welcome back, {user.Username}!"
+            //});
+
+            return Ok(new
             {
-                userId = user.Id,
-                message = $"Welcome back, {user.Username}!"
+                id = user.Id,                      // ✅ זו השורה שחשובה!
+                username = user.Username,
+                message = "Login successful!"
             });
         }
 

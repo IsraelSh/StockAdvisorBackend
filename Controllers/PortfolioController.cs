@@ -39,12 +39,25 @@ namespace StockAdvisorBackend.Controllers
         [HttpGet("user/{userId}")]
         public async Task<IActionResult> GetPortfolioByUserId(int userId)
         {
-            var portfolio = await _portfolioService.GetPortfolioByUserIdAsync(userId);
 
-            if (portfolio == null || portfolio.Count == 0)
+            var portfolioItems = await _portfolioService.GetPortfolioByUserIdAsync(userId);
+
+            if (portfolioItems == null || portfolioItems.Count == 0)
                 return NotFound("No portfolio items found for this user.");
 
-            return Ok(portfolio);
+            var response = portfolioItems.Select(item => new
+            {
+                stockSymbol = item.Stock?.Symbol ?? "N/A",
+                amount = item.PortfolioQuantity,
+                purchasePrice = item.AveragePurchasePrice,
+                value = item.PortfolioQuantity * item.AveragePurchasePrice
+            });
+
+            return Ok(new
+            {
+                userId = userId,
+                portfolio = response
+            });
         }
     }
 }
