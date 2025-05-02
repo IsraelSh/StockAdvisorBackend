@@ -7,7 +7,9 @@ using System.Net.Http;
 using System.Net.Http.Json;
 
 namespace StockAdvisorBackend.Controllers
-{
+{ 
+
+
     [ApiController]
     [Route("api/[controller]")] // מסלול ה-API יהיה api/AdviceRequest
     public class AdviceRequestController : ControllerBase
